@@ -12,6 +12,7 @@ export default createGlobalStyle`
     body {
         font-size:16px;
         background:${ props => props.theme.colors.background};
+        color:  ${({theme}) => theme.colors.gray[900]};
     }
 
     button {
