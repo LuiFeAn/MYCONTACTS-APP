@@ -9,7 +9,7 @@ export default function Home () {
 
     return(
         <Container>
-            <Modal danger/>
+            <Modal danger />
             <InputSearchContainer>
                 <input type='search' placeholder='Pesquisar Contato'/>
             </InputSearchContainer>
