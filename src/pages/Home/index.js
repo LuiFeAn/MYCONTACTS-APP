@@ -10,7 +10,7 @@ export default function Home () {
 
     return(
         <Container>
-            <Loader/>
+
             <InputSearchContainer>
                 <input type='search' placeholder='Pesquisar Contato'/>
             </InputSearchContainer>
