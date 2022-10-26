@@ -1,5 +1,5 @@
 import { Form, ButtonContainer } from "./style";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import PropTypes from 'prop-types';
 import FormGroup from "../FormGroup";
 import Input from '../Input';
@@ -11,14 +11,31 @@ export default function ContactForm({ buttonLabel }){
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [phone,setPhone] = useState('');
+    const [category,setCategory] = useState('');
+    const [errors,setErros] = useState([]);
 
-    const handleName = event => setName(event.target.value);
+    const handleName = event => {
+        setName(event.target.value);
+        if(!event.target.value){
+            setErros(PrevState => ([...PrevState,{field:'name',message:'Nome é obrigatório !'}]));
+        }else{
+            setErros(PrevState => PrevState.filter(error => error.field != 'name'));
+        }
+    }
+
+    console.log(errors);
+
     const handleEmail = event => setEmail(event.target.value);
     const handlePhone = event => setPhone(event.target.value);
+    const handleCategory = event => setCategory(event.target.value);
+
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+    }
 
 
     return(
-       <Form>
+       <Form onSubmit={handleSubmit}>
          <FormGroup>
             <Input value={name} onChange={handleName} placeholder="Nome"/>
          </FormGroup>
@@ -29,9 +46,11 @@ export default function ContactForm({ buttonLabel }){
             <Input value={phone} onChange={handlePhone} placeholder="Telefone"/>
          </FormGroup>
          <FormGroup>
-            <Select>
+            <Select value={category} onChange={handleCategory}>
+                <option>Categoria</option>
                 <option>Instagram</option>
                 <option>Whatsapp</option>
+                <option>Discord</option>
             </Select>
          </FormGroup>
          <ButtonContainer>
@@ -41,6 +60,6 @@ export default function ContactForm({ buttonLabel }){
     )
 }
 
-ContactForm.prototype = {
+ContactForm.PropTypes = {
     buttonLabel: PropTypes.string.isRequired
 }
