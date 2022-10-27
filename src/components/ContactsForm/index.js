@@ -7,6 +7,7 @@ import Select from '../Select';
 import Button from '../Button';
 import isEmailValid from "../../utils/is-valid-email";
 import useErrors from "../../hooks/use-erros";
+import formatPhone from '../../utils/format-phone';
 
 export default function ContactForm({ buttonLabel }){
 
@@ -35,23 +36,27 @@ export default function ContactForm({ buttonLabel }){
         }
     }
 
-    const handlePhone = event => setPhone(event.target.value);
+    const handlePhone = event => {
+        setPhone(formatPhone(event.target.value));
+    }
     const handleCategory = event => setCategory(event.target.value);
 
     const handleSubmit = (event) =>{
         event.preventDefault();
+        console.log({name,email,phone,category})
     }
 
+
     return(
-       <Form onSubmit={handleSubmit}>
+       <Form onSubmit={handleSubmit} noValidate>
          <FormGroup error={getErrorMesssageByFieldName('name')}>
             <Input error={getErrorMesssageByFieldName('name')} value={name} onChange={handleName} placeholder="Nome"/>
          </FormGroup>
-         <FormGroup error={getErrorMesssageByFieldName('email')}>
-            <Input value={email} onChange={handleEmail} error={getErrorMesssageByFieldName('email')} placeholder="E-mail"/>
+         <FormGroup  error={getErrorMesssageByFieldName('email')}>
+            <Input type='email' value={email} onChange={handleEmail} error={getErrorMesssageByFieldName('email')} placeholder="E-mail"/>
          </FormGroup>
          <FormGroup>
-            <Input value={phone} onChange={handlePhone} placeholder="Telefone"/>
+            <Input maxLength={15} value={phone} onChange={handlePhone} placeholder="Telefone"/>
          </FormGroup>
          <FormGroup>
             <Select value={category} onChange={handleCategory}>

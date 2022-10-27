@@ -12,6 +12,7 @@ export default styled.select`
     font-size:16px;
     transition: outline 0.2s ease-in;
     margin-top:10px;
+    appearance: none;
 
     &:focus{
         outline: 2px solid ${({theme}) => theme.colors.primary.main};
