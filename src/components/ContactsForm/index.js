@@ -16,7 +16,9 @@ export default function ContactForm({ buttonLabel }){
     const [phone,setPhone] = useState('');
     const [category,setCategory] = useState('');
 
-    const { createError,removeError, getErrorMesssageByFieldName } = useErrors();
+    const { createError,removeError, getErrorMesssageByFieldName, errors } = useErrors();
+
+    const isFormValid = ( name && errors.length === 0 );
 
     const handleName = event => {
         setName(event.target.value);
@@ -43,14 +45,13 @@ export default function ContactForm({ buttonLabel }){
 
     const handleSubmit = (event) =>{
         event.preventDefault();
-        console.log({name,email,phone,category})
     }
 
 
     return(
        <Form onSubmit={handleSubmit} noValidate>
          <FormGroup error={getErrorMesssageByFieldName('name')}>
-            <Input error={getErrorMesssageByFieldName('name')} value={name} onChange={handleName} placeholder="Nome"/>
+            <Input error={getErrorMesssageByFieldName('name')} value={name} onChange={handleName} placeholder="Nome *"/>
          </FormGroup>
          <FormGroup  error={getErrorMesssageByFieldName('email')}>
             <Input type='email' value={email} onChange={handleEmail} error={getErrorMesssageByFieldName('email')} placeholder="E-mail"/>
@@ -67,7 +68,7 @@ export default function ContactForm({ buttonLabel }){
             </Select>
          </FormGroup>
          <ButtonContainer>
-            <Button type="submit">{buttonLabel}</Button>
+            <Button disabled={!isFormValid} type="submit">{buttonLabel}</Button>
          </ButtonContainer>
        </Form>
     )
