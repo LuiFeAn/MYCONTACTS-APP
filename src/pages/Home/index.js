@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
-import { useState,useEffect } from "react";
+import { useState,useMemo,useEffect } from "react";
 
 export default function Home () {
 
@@ -11,7 +11,10 @@ export default function Home () {
     const [orderBy,setOrderBy] = useState('asc');
     const [search,setSearch] = useState('');
 
-    const filterContacts = contacts.filter( concact => concact.name.toLowerCase().includes(search.toLocaleLowerCase()));
+
+    const filterContacts = useMemo(()=>
+        (contacts.filter( concact => concact.name.toLowerCase().includes(search.toLocaleLowerCase())))
+    ,[contacts,search])
 
     useEffect(() => {
         fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
