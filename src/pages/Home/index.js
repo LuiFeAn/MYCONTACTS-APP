@@ -5,7 +5,7 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import { useState,useMemo,useEffect } from "react";
 import Loader from '../../components/Loader';
-import contactService from "../../services/contact-service";
+import ContactService from "../../services/contact-service";
 
 export default function Home () {
 
@@ -24,11 +24,13 @@ export default function Home () {
 
         async function getContacts(){
           try{
-            const contactsList = await contactService.getContacts(orderBy);
+            const contactsList = await ContactService.getContacts(orderBy);
             setIsLoading(false);
             setContacts(contactsList);
           }catch(err){
-
+            console.log(err);
+          }finally{
+            setIsLoading(false);
           }
         }
         getContacts();
