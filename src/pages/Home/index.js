@@ -5,7 +5,7 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import { useState,useMemo,useEffect } from "react";
 import Loader from '../../components/Loader';
-import delay from '../../utils/delay';
+import contactService from "../../services/contact-service";
 
 export default function Home () {
 
@@ -17,18 +17,22 @@ export default function Home () {
 
     const filterContacts = useMemo(()=>
         (contacts.filter( concact => concact.name.toLowerCase().includes(search.toLocaleLowerCase())))
-    ,[contacts,search])
+    ,[contacts,search]);
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
-        .then(async(resp) => {
-            const json = await resp.json();
-            setContacts(json);
-        }).catch( err => console.log(err))
-        .finally(()=>{
+
+        async function getContacts(){
+          try{
+            const contactsList = await contactService.getContacts(orderBy);
             setIsLoading(false);
-        });
+            setContacts(contactsList);
+          }catch(err){
+
+          }
+        }
+        getContacts();
+
     },[orderBy]);
 
     const handleToggleOrderBy = () => setOrderBy(PrevState => PrevState === 'asc' ? 'desc' : 'asc');
