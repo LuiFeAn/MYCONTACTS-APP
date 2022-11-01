@@ -25,18 +25,6 @@ export default function Home () {
 
     useEffect(() => {
         setIsLoading(true);
-
-        async function getContacts(){
-          try{
-            const contactsList = await ContactService.getContacts(orderBy);
-            setIsLoading(false);
-            setContacts(contactsList);
-          }catch(err){
-            setHasError(true);
-          }finally{
-            setIsLoading(false);
-          }
-        }
         getContacts();
 
     },[orderBy]);
@@ -44,6 +32,23 @@ export default function Home () {
     const handleToggleOrderBy = () => setOrderBy(PrevState => PrevState === 'asc' ? 'desc' : 'asc');
 
     const handleChangeSearch = event => setSearch(event.target.value);
+
+    function handleTryAgain(){
+        getContacts();
+    }
+
+    async function getContacts(){
+        try{
+          const contactsList = await ContactService.getContacts(orderBy);
+          setIsLoading(false);
+          setContacts(contactsList);
+          setHasError(false);
+        }catch(err){
+          setHasError(true);
+        }finally{
+          setIsLoading(false);
+        }
+      }
 
     return(
         <Container>
@@ -61,17 +66,10 @@ export default function Home () {
                     <Link to="/new">Novo Contato</Link>
                 </Header>
 
-                {hasError && (
-                    <ErrorContainer>
-                        <img src={sad} alt='sad-icon'/>
-                        <div className="details">
-                            <span><strong>Ocorreu um erro ao obter seus contatos </strong></span>
-                            <Button type="button">Tentar novamente</Button>
-                        </div>
-                    </ErrorContainer>
-                )}
 
-                {filterContacts.length > 0 && (
+                {!hasError &&
+                <>
+                      {filterContacts.length > 0 && (
                     <ListHeader orderBy={orderBy}>
                     <button onClick={handleToggleOrderBy} type="button">
                         <span>Nome</span>
@@ -101,6 +99,17 @@ export default function Home () {
                     </div>
                 </Card>
                 ))}
+                </>}
+
+                {hasError && (
+                    <ErrorContainer>
+                        <img src={sad} alt='sad-icon'/>
+                        <div className="details">
+                            <span><strong>Ocorreu um erro ao obter seus contatos </strong></span>
+                            <Button onClick={handleTryAgain} type="button">Tentar novamente</Button>
+                        </div>
+                    </ErrorContainer>
+                )}
         </Container>
     )
 }
