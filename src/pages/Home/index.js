@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
-import { useState,useMemo,useEffect } from "react";
+import { useState,useMemo,useEffect, useCallback } from "react";
 import Loader from '../../components/Loader';
 import ContactService from "../../services/contact-service";
 
@@ -23,11 +23,24 @@ export default function Home () {
         (contacts.filter( concact => concact.name.toLowerCase().includes(search.toLocaleLowerCase())))
     ,[contacts,search]);
 
+    const getContacts = useCallback( async () => {
+        try{
+            const contactsList = await ContactService.getContacts(orderBy);
+            setIsLoading(false);
+            setContacts(contactsList);
+            setHasError(false);
+          }catch(err){
+            setHasError(true);
+          }finally{
+            setIsLoading(false);
+          }
+    },[orderBy]);
+
     useEffect(() => {
         setIsLoading(true);
         getContacts();
 
-    },[orderBy]);
+    },[getContacts]);
 
     const handleToggleOrderBy = () => setOrderBy(PrevState => PrevState === 'asc' ? 'desc' : 'asc');
 
@@ -36,19 +49,6 @@ export default function Home () {
     function handleTryAgain(){
         getContacts();
     }
-
-    async function getContacts(){
-        try{
-          const contactsList = await ContactService.getContacts(orderBy);
-          setIsLoading(false);
-          setContacts(contactsList);
-          setHasError(false);
-        }catch(err){
-          setHasError(true);
-        }finally{
-          setIsLoading(false);
-        }
-      }
 
     return(
         <Container>
