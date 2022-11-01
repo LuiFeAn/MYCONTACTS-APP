@@ -1,4 +1,4 @@
-import { Container,Header,ListHeader, Card, InputSearchContainer }from"./style";
+import { Container,Header,ListHeader, Card, InputSearchContainer, ErrorContainer }from"./style";
 import { Link } from "react-router-dom";
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
@@ -7,12 +7,16 @@ import { useState,useMemo,useEffect } from "react";
 import Loader from '../../components/Loader';
 import ContactService from "../../services/contact-service";
 
+import sad from '../../assets/images/icons/sad.svg';
+import Button from '../../components/Button';
+
 export default function Home () {
 
     const [contacts,setContacts] = useState([]);
     const [isLoading,setIsLoading] = useState(true);
     const [orderBy,setOrderBy] = useState('asc');
     const [search,setSearch] = useState('');
+    const [hasError,setHasError] = useState(false);
 
 
     const filterContacts = useMemo(()=>
@@ -28,7 +32,7 @@ export default function Home () {
             setIsLoading(false);
             setContacts(contactsList);
           }catch(err){
-            console.log(err);
+            setHasError(true);
           }finally{
             setIsLoading(false);
           }
@@ -47,13 +51,26 @@ export default function Home () {
            <InputSearchContainer>
                 <input value={search} onChange={handleChangeSearch} type='search' placeholder='Pesquisar Contato'/>
                 </InputSearchContainer>
-                <Header>
+
+                <Header hasError={hasError}>
+                    {!hasError &&
                     <strong>
                         {filterContacts.length}
                         {filterContacts.length === 1 ? ' Contato' : ' Contatos'}
-                    </strong>
+                    </strong>}
                     <Link to="/new">Novo Contato</Link>
                 </Header>
+
+                {hasError && (
+                    <ErrorContainer>
+                        <img src={sad} alt='sad-icon'/>
+                        <div className="details">
+                            <span><strong>Ocorreu um erro ao obter seus contatos </strong></span>
+                            <Button type="button">Tentar novamente</Button>
+                        </div>
+                    </ErrorContainer>
+                )}
+
                 {filterContacts.length > 0 && (
                     <ListHeader orderBy={orderBy}>
                     <button onClick={handleToggleOrderBy} type="button">
