@@ -1,4 +1,6 @@
 import delay from "../../utils/delay";
+import apiErrors from "../../errors/api-errors";
+import ApiError from "../../errors/api-errors";
 
 class HttpClient {
 
@@ -18,7 +20,7 @@ class HttpClient {
 
         if(resp.ok) return body;
 
-        throw new Error(body.error || `${resp.status} - ${resp.statusText}`);
+        throw new ApiError(resp,body);
 
 
     }
