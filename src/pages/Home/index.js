@@ -1,4 +1,4 @@
-import { Container,Header,ListHeader, Card, InputSearchContainer, ErrorContainer }from"./style";
+import { Container,Header,ListHeader, Card, InputSearchContainer, ErrorContainer, EmptyListContainer, SearchNotFoundContainer }from"./style";
 import { Link } from "react-router-dom";
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
@@ -9,6 +9,8 @@ import ContactService from "../../services/contact-service";
 
 import sad from '../../assets/images/icons/sad.svg';
 import Button from '../../components/Button';
+import emptyBox from '../../assets/images/icons/empty-box.svg';
+import magnifier from '../../assets/images/icons/magnifier-question.svg';
 
 export default function Home () {
 
@@ -53,15 +55,29 @@ export default function Home () {
     return(
         <Container>
             <Loader isLoading={isLoading}/>
-           <InputSearchContainer>
-                <input value={search} onChange={handleChangeSearch} type='search' placeholder='Pesquisar Contato'/>
-                </InputSearchContainer>
 
-                <Header hasError={hasError}>
-                    {!hasError &&
+            {contacts.length  > 0 && (
+                 <InputSearchContainer>
+                    <input value={search} onChange={handleChangeSearch} type='search' placeholder='Pesquisar Contato'/>
+                 </InputSearchContainer>
+            )}
+
+
+                <Header justifyContent=
+                {(hasError
+                    ? 'flex-end'
+                    : contacts.length > 0
+                    ? 'space-between'
+                    : 'center')}>
+
+                    {(!hasError && contacts.length > 0) &&
                     <strong>
+
                         {filterContacts.length}
-                        {filterContacts.length === 1 ? ' Contato' : ' Contatos'}
+                        {filterContacts.length === 1
+                        ? ' contato'
+                        : ' contatos'}
+
                     </strong>}
                     <Link to="/new">Novo Contato</Link>
                 </Header>
@@ -69,7 +85,22 @@ export default function Home () {
 
                 {!hasError &&
                 <>
-                      {filterContacts.length > 0 && (
+
+                    {contacts.length < 1 && !isLoading && (
+                        <EmptyListContainer>
+                            <img src={emptyBox}/>
+                            <p>Você ainda não tem nenhum contato cadastrado ! Clique no botão <strong>"Novo Contato"</strong> à cima para cadastrar o seu primeiro!</p>
+                        </EmptyListContainer>
+                    )}
+
+                    {contacts.length > 0 && filterContacts.length < 1 && (
+                         <SearchNotFoundContainer>
+                            <img src={magnifier}/>
+                            <span>Nenhum resultado foi encontrado para <strong>{search}</strong></span>
+                        </SearchNotFoundContainer>
+                    )}
+
+                    {filterContacts.length > 0 && (
                     <ListHeader orderBy={orderBy}>
                     <button onClick={handleToggleOrderBy} type="button">
                         <span>Nome</span>

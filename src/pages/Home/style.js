@@ -34,13 +34,13 @@ export const Header = styled.header`
 
     display: flex;
     align-items: center;
-    justify-content:${({hasError}) => hasError ? 'flex-end' : 'space-between'};
+    justify-content:${({justifyContent}) => justifyContent};
     margin-top:32px;
     border-bottom: 2px solid ${({theme}) => theme.colors.gray[100]};
     padding-bottom: 16px;
 
     strong{
-        font-size:24px;
+        font-size:26px;
         color:#222;
     }
 
@@ -160,5 +160,38 @@ export const ErrorContainer = styled.div`
         }
     }
 
+
+`;
+
+
+export const EmptyListContainer = styled.div`
+
+    margin-top:16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    p{
+        color:${({theme}) => theme.colors.gray[200]};
+        margin-top:8px;
+        text-align:center;
+        strong{
+            color:${({theme}) => theme.colors.primary.main};
+        }
+    }
+`;
+
+export const SearchNotFoundContainer = styled.div`
+
+    display: flex;
+    margin-top:10px;
+    align-items: flex-start;
+
+    span{
+        color:${({theme}) => theme.colors.gray[200]};
+        margin-left:16px;
+        word-break:break-word;
+    }
 
 `;
