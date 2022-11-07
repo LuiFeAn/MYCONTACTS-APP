@@ -11,6 +11,10 @@ class CategorysService {
         return this.httpClient.get('/categories');
     }
 
+    async createCategory({categoryName}){
+        return this.httpClient.post('/categories',{categoryName});
+    }
+
 }
 
 export default new CategorysService;

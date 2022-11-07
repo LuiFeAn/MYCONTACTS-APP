@@ -21,8 +21,15 @@ class HttpClient {
         if(resp.ok) return body;
 
         throw new ApiError(resp,body);
+    }
 
-
+    async post(endpoint,{categoryName}){
+        await fetch(`${this.baseUrl}${endpoint}`,{
+            method:'POST',
+            body:{
+                categoryName
+            },
+        })
     }
 
 }
