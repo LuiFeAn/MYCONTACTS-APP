@@ -51,11 +51,14 @@ export const Header = styled.header`
         padding: 8px;
         border: 2px solid ${({theme}) => theme.colors.primary.main};
         border-radius: 4px;
-        transition: all 0.2 ease-in;
+        transition: all 0.2s ease-in;
 
         &:hover{
             background:${({theme}) => theme.colors.primary.main};
+            color:#fff;
         }
+
+        margin-left:10px;
     }
 
 `;

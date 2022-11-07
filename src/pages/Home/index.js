@@ -80,7 +80,7 @@ export default function Home () {
 
                     </strong>}
                     <Link to="/new">Novo Contato</Link>
-                     <Link to="/newCategory">Nova Categoria</Link>
+                    <Link to="/newCategory">Nova Categoria</Link>
                 </Header>
 
 
