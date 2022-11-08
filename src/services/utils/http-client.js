@@ -1,5 +1,4 @@
 import delay from "../../utils/delay";
-import apiErrors from "../../errors/api-errors";
 import ApiError from "../../errors/api-errors";
 
 class HttpClient {
@@ -11,25 +10,40 @@ class HttpClient {
     async get(endpoint){
 
         await delay(500);
-        const resp = await fetch(`${this.baseUrl}${endpoint}`);
-        const contentType = resp.headers.get('Content-Type');
+        const response = await fetch(`${this.baseUrl}${endpoint}`);
 
         let body;
+        const contentType = response.headers.get('Content-Type');
 
-        if(contentType.includes('application/json')) body = await resp.json();
+        if(contentType.includes('application/json')) body = await response.json();
 
-        if(resp.ok) return body;
+        if(response.ok) return body;
 
-        throw new ApiError(resp,body);
+        throw new ApiError(response,body);
     }
 
-    async post(endpoint,{categoryName}){
-        await fetch(`${this.baseUrl}${endpoint}`,{
+    async post(endpoint,body){
+
+        const headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+
+        const response = await fetch(`${this.baseUrl}${endpoint}`,{
             method:'POST',
-            body:{
-                categoryName
-            },
-        })
+            body: JSON.stringify(body),
+            headers,
+        });
+
+        let responseBody;
+        const contentType = response.headers.get('Content-Type');
+
+        if(contentType.includes('application/json')) responseBody = await response.json();
+
+        if(response.ok) return body;
+
+        throw new ApiError(response,responseBody);
+
+
     }
 
 }
