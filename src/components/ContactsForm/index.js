@@ -17,6 +17,7 @@ export default function ContactForm({ buttonLabel }){
     const [phone,setPhone] = useState('');
     const [categoryId,setCategoryId] = useState('');
     const [categories,setCategories] = useState([]);
+    const [isLoadingCategory,setIsLoadingCategory] = useState(true);
 
     const { createError,removeError, getErrorMesssageByFieldName, errors } = useErrors();
 
@@ -24,8 +25,14 @@ export default function ContactForm({ buttonLabel }){
 
     useEffect(() => {
         async function loadCategories(){
-            const categoriesList = await CategoriesService.listCategories();
-            setCategories(categoriesList);
+            try{
+                const categoriesList = await CategoriesService.listCategories();
+                setCategories(categoriesList);
+            }catch{
+
+            }finally{
+                setIsLoadingCategory(false);
+            }
         }
         loadCategories();
     },[])
@@ -69,8 +76,8 @@ export default function ContactForm({ buttonLabel }){
          <FormGroup>
             <Input maxLength={15} value={phone} onChange={handlePhone} placeholder="Telefone"/>
          </FormGroup>
-         <FormGroup>
-            <Select value={categoryId} onChange={handleCategory}>
+         <FormGroup isLoading={isLoadingCategory}>
+            <Select disabled={isLoadingCategory} value={categoryId} onChange={handleCategory}>
                 <option>Sem Categoria</option>
                 {categories.map( category=> (
                     <option value={category.id} key={category.id}>{category.name}</option>
