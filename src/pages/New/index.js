@@ -10,7 +10,7 @@ export default function NewContact () {
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
-                category_id: formData.category
+                category_id: formData.categoryId,
         });
        }catch(err){
             alert('Ocorreu um erro ao cadastrar o contato !');
