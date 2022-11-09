@@ -20,10 +20,11 @@ export default function NewCategory(){
         removeError('category-name')
     }
 
-    const createCategory = async () => {
+    const createCategory = async (event) => {
+        event.preventDefault();
         if(errors.length === 0){
             try{
-                await categoryService.createCategory({categoryName});
+                await categoryService.createCategory(categoryName);
                 setCategoryName('');
             }catch(err){
 
@@ -35,11 +36,13 @@ export default function NewCategory(){
         <div>
             <PageHeader title='Nova categoria'/>
             <br/>
-            <FormGroup error={getErrorMesssageByFieldName('category-name')}>
-                <Input error={getErrorMesssageByFieldName('category-name')} value={categoryName} onChange={handleCategoryName} placeholder="Nome da categoria"/>
-            </FormGroup>
-            <br/>
-            <Button onClick={createCategory}>Cadastrar</Button>
+            <form onSubmit={createCategory}>
+                <FormGroup error={getErrorMesssageByFieldName('category-name')}>
+                    <Input error={getErrorMesssageByFieldName('category-name')} value={categoryName} onChange={handleCategoryName} placeholder="Nome da categoria"/>
+                </FormGroup>
+                <br/>
+                <Button onClick={createCategory}>Cadastrar</Button>
+            </form>
         </div>
     )
 }

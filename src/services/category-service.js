@@ -11,8 +11,8 @@ class CategorysService {
         return this.httpClient.get('/categories');
     }
 
-    async createCategory({categoryName}){
-        return this.httpClient.post('/categories',{categoryName});
+    async createCategory(categoryName){
+        return this.httpClient.post('/categories',{category_name:categoryName});
     }
 
 }
