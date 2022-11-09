@@ -22,4 +22,10 @@ export default styled.input`
         border-color: ${theme.colors.danger.main} !important;
     `}
 
+    &:disabled{
+        background-color:${({theme}) => theme.colors.gray[100]};
+        outline:${({theme}) => theme.colors.gray[200]};
+        opacity:1;
+    }
+
 `;

@@ -18,7 +18,7 @@ class HttpClient {
         return this.makeRequest(endpoint,{
             method:'POST',
             body,
-            headers:options?.headers,
+            headers:body?.headers,
         });
     }
 

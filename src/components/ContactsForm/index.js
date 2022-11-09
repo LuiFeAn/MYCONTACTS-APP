@@ -18,6 +18,7 @@ export default function ContactForm({  onSubmit, buttonLabel }){
     const [categoryId,setCategoryId] = useState('');
     const [categories,setCategories] = useState([]);
     const [isLoadingCategory,setIsLoadingCategory] = useState(true);
+    const [isSubmitting,setIsSubmitting] = useState(false);
 
     const { createError,removeError, getErrorMesssageByFieldName, errors } = useErrors();
 
@@ -60,39 +61,47 @@ export default function ContactForm({  onSubmit, buttonLabel }){
     }
     const handleCategory = event => setCategoryId(event.target.value);
 
-    const handleSubmit = (event) =>{
+    const handleSubmit = async (event) =>{
         event.preventDefault();
-        onSubmit({name,email,phone,categoryId});
+        setIsSubmitting(true);
+        await onSubmit({name,email,phone,categoryId});
+        setIsSubmitting(false);
     }
 
 
     return(
        <Form onSubmit={handleSubmit} noValidate>
+
          <FormGroup error={getErrorMesssageByFieldName('name')}>
-            <Input error={getErrorMesssageByFieldName('name')} value={name} onChange={handleName} placeholder="Nome *"/>
+            <Input disabled={isSubmitting} error={getErrorMesssageByFieldName('name')} value={name} onChange={handleName} placeholder="Nome *"/>
          </FormGroup>
+
          <FormGroup  error={getErrorMesssageByFieldName('email')}>
-            <Input type='email' value={email} onChange={handleEmail} error={getErrorMesssageByFieldName('email')} placeholder="E-mail"/>
+            <Input disabled={isSubmitting} type='email' value={email} onChange={handleEmail} error={getErrorMesssageByFieldName('email')} placeholder="E-mail"/>
          </FormGroup>
+
          <FormGroup>
-            <Input maxLength={15} value={phone} onChange={handlePhone} placeholder="Telefone"/>
+            <Input disabled={isSubmitting} maxLength={15} value={phone} onChange={handlePhone} placeholder="Telefone"/>
          </FormGroup>
+
          <FormGroup isLoading={isLoadingCategory}>
-            <Select disabled={isLoadingCategory} value={categoryId} onChange={handleCategory}>
+            <Select disabled={isLoadingCategory} isLoading={isSubmitting} value={categoryId} onChange={handleCategory}>
                 <option>Sem Categoria</option>
                 {categories.map( category=> (
                     <option value={category.id} key={category.id}>{category.name}</option>
                 ))}
             </Select>
          </FormGroup>
+
          <ButtonContainer>
-            <Button disabled={!isFormValid} type="submit">{buttonLabel}</Button>
+            <Button disabled={!isFormValid} isLoading={isSubmitting} type="submit">{buttonLabel}</Button>
          </ButtonContainer>
+
        </Form>
     )
 }
 
-ContactForm.PropTypes = {
+ContactForm.propTypes = {
     buttonLabel: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
 }

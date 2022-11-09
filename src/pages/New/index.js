@@ -6,7 +6,7 @@ export default function NewContact () {
 
     async function handleSubmit(formData){
        try{
-            const response = await ContactsService.createContact({
+            await ContactsService.createContact({
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
