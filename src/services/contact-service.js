@@ -3,7 +3,7 @@ import httpClient from "./utils/http-client"
 class ContactService {
 
     constructor(){
-        this.httpClient = new httpClient('http://localhost:3001');
+        this.httpClient = new httpClient('http://192.168.2.111:3001');
     }
 
     getContacts(orderBy){
