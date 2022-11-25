@@ -15,14 +15,21 @@ export default function NewCategory(){
     const [categoryName,setCategoryName] = useState('');
 
     const handleCategoryName = event => {
+
         setCategoryName(event.target.value);
-        if(!event.target.value) return createError({field:'category-name',message:'O nome da categoria é obrigatório'});
+        if(!event.target.value)
+        return createError({
+            field:'category-name',
+            message:'O nome da categoria é obrigatório'
+        });
         removeError('category-name')
     }
 
+    const noError = categoryName && errors.length === 0;
+
     const createCategory = async (event) => {
         event.preventDefault();
-        if(errors.length === 0){
+        if(noError){
             try{
                 await categoryService.createCategory(categoryName);
                 setCategoryName('');
@@ -41,7 +48,7 @@ export default function NewCategory(){
                     <Input error={getErrorMesssageByFieldName('category-name')} value={categoryName} onChange={handleCategoryName} placeholder="Nome da categoria"/>
                 </FormGroup>
                 <br/>
-                <Button onClick={createCategory}>Cadastrar</Button>
+                <Button type='submit' disabled={!noError}>Cadastrar</Button>
             </form>
         </div>
     )

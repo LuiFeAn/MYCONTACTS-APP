@@ -15,6 +15,7 @@ class HttpClient {
     }
 
     post(endpoint,body){
+        console.log(endpoint,body);
         return this.makeRequest(endpoint,{
             method:'POST',
             body,
