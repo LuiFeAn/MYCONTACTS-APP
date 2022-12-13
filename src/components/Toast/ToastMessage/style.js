@@ -1,9 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const ContainerVariants = {
+
+    default: css`
+         background: ${({theme}) => theme.colors.primary.main};
+    `,
+    sucess: css`
+         background: ${({theme}) => theme.colors.sucess.main};
+    `,
+    danger: css`
+         background: ${({theme}) => theme.colors.danger.main};
+    `,
+
+}
 
 export const Container = styled.div`
 
     padding: 16px 32px;
-    background: ${({theme}) => theme.colors.primary.main};
+    ${({type}) => ContainerVariants[type] || ContainerVariants.default};
     color: #fff;
     border-radius:4px;
     display:flex;
