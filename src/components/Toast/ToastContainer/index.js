@@ -1,10 +1,14 @@
 import * as S from './style';
 
+import ToastMessage from '../ToastMessage';
+
 export default function ToastContainer () {
 
     return (
         <S.Container>
-            <h1>Toast Container</h1>
+            <ToastMessage text='Default Toast'/>
+            <ToastMessage text='Sucess Toast' type='danger'/>
+            <ToastMessage text='Error Toast' type='sucess'/>
         </S.Container>
     )
 
