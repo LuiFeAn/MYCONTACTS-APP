@@ -8,12 +8,19 @@ export default function NewContact () {
 
     async function handleSubmit(formData){
        try{
+
             await ContactsService.createContact({
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
                 category_id: formData.categoryId,
-        });
+            });
+
+            toast({
+                type:'sucess',
+                text:'Contato cadastrado com sucesso'
+            });
+
        }catch(err){
 
             toast({
