@@ -7,13 +7,13 @@ import { toastEventManager } from '../../../utils/toast';
 
 export default function ToastContainer () {
 
-     const [ messages, setToast ] = useState([]);
+     const [ messages, setMessage ] = useState([]);
 
     useEffect( () => {
 
        function handleAddToast({type,text}){
 
-        setToast( PrevValue => [...PrevValue,
+        setMessage( PrevValue => [...PrevValue,
             {
                 id: Math.random(),
                 type,
@@ -29,10 +29,18 @@ export default function ToastContainer () {
 
     },[]);
 
+    function handleRemoveMessage(id) {
+
+        setMessage( PrevValue => PrevValue.filter( message => (
+            message.id !== id
+        )));
+
+    }
+
     return (
         <S.Container>
            { messages.map( message => (
-            <ToastMessage key={message.id} type={message.type} text={message.text} />
+            <ToastMessage id={message.id} onRemoveMessage={handleRemoveMessage} key={message.id} type={message.type} text={message.text} />
            ))}
         </S.Container>
     )

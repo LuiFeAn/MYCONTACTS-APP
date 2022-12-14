@@ -3,10 +3,19 @@ import * as S from './style';
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 
-export default function ToastMessage({text,type = 'default'}) {
+export default function ToastMessage({
+    text,
+    type = 'default',
+    id,
+    onRemoveMessage
+}) {
+
+    function handleRemoveToast(){
+        onRemoveMessage(id);
+    }
 
     return (
-        <S.Container type={type}>
+        <S.Container onClick={handleRemoveToast} type={type}>
             { type === 'danger' && <img src={xCircleIcon} alt='x'/>}
             { type === 'sucess' && <img src={checkCircleIcon} alt='check'/>}
             <strong>{text}</strong>
