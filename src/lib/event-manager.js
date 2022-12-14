@@ -28,16 +28,20 @@ export default class EventManager {
 
     }
 
+    off(event,offListener) {
+
+        const listeners = this.listeners[event];
+
+        if( !this.listeners[event] ){
+            return;
+        }
+
+        const filtredListeners = listeners.filter( listener => (
+            listener != offListener
+        ));
+
+        this.listeners[event] = filtredListeners;
+
+    }
+
 }
-
-const toastEventManager = new EventManager();
-
-toastEventManager.on('addtoast', (payload) => {
-    console.log(payload);
-});
-
-toastEventManager.emit('addtoast', {
-    type:'danger',
-    text:'texto'
-});
-
