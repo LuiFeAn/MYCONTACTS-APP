@@ -8,6 +8,8 @@ import { useState } from "react";
 
 import categoryService from "../../services/category-service";
 
+import toast from '../../utils/toast';
+
 export default function NewCategory(){
 
     const { createError,removeError,errors, getErrorMesssageByFieldName } = useErrors();
@@ -31,10 +33,20 @@ export default function NewCategory(){
         event.preventDefault();
         if(noError){
             try{
+
                 await categoryService.createCategory(categoryName);
                 setCategoryName('');
-            }catch(err){
 
+                toast({
+                    type:'sucess',
+                    text:`Categoria: ${categoryName} cadastrada com sucesso`
+                });
+
+            }catch(err){
+                toast({
+                    type:'danger',
+                    text:`Não foi possível cadastrar ${categoryName}`
+                })
             }
         }
     }
