@@ -62,10 +62,20 @@ export default function ContactForm({  onSubmit, buttonLabel }){
     const handleCategory = event => setCategoryId(event.target.value);
 
     const handleSubmit = async (event) =>{
+
         event.preventDefault();
         setIsSubmitting(true);
+
         await onSubmit({name,email,phone,categoryId});
+
         setIsSubmitting(false);
+
+        setName('');
+        setEmail('');
+        setPhone('');
+        setCategoryId('');
+
+
     }
 
 
