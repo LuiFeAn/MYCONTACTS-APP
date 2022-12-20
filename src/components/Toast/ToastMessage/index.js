@@ -15,7 +15,7 @@ export default function ToastMessage({
     }
 
     return (
-        <S.Container onClick={handleRemoveToast} type={type}>
+        <S.Container onClick={handleRemoveToast} role="button" tabIndex={0} type={type}>
             { type === 'danger' && <img src={xCircleIcon} alt='x'/>}
             { type === 'sucess' && <img src={checkCircleIcon} alt='check'/>}
             <strong>{text}</strong>
