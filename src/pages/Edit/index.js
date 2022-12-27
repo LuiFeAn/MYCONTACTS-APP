@@ -14,12 +14,11 @@ export default function EditContact () {
     const { id } = useParams();
 
     const [ loading, setLoading ] = useState(true);
+    const [ contactName, setContactName ] = useState('');
 
     const contactForm = useRef(null);
 
     const history = useHistory();
-
-    const [ contact, setContact ] = useState({});
 
     function handleSubmit(){
         //
@@ -32,8 +31,10 @@ export default function EditContact () {
             try{
 
                 const contactData = await contactService.getContactById(id);
-                setContact(contactData);
+
                 contactForm.current.setFieldsValues(contactData);
+
+                setContactName(contactData.name);
                 setLoading(false);
 
             }catch(err){
@@ -56,7 +57,7 @@ export default function EditContact () {
 
             <Loader isLoading={loading}/>
 
-            <PageHeader title={`Editar ${contact.name}`}/>
+            <PageHeader title={ !loading ? `Editar ${contactName}` : 'Carregando...'}/>
 
             <ContactForm
                  ref={contactForm}
