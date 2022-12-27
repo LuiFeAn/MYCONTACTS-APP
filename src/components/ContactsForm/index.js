@@ -62,6 +62,14 @@ const ContactForm = forwardRef( ({  onSubmit, buttonLabel }, ref) => {
                 setPhone(formatPhone(contact.phone) ?? '');
                 setCategoryId(contact.category_id ?? '');
 
+            },
+
+            resetFields: () => {
+
+                setName('');
+                setEmail('');
+                setPhone('');
+                setCategoryId('');
             }
         }
 
