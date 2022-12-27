@@ -56,10 +56,11 @@ const ContactForm = forwardRef( ({  onSubmit, buttonLabel }, ref) => {
         return {
 
             setFieldsValues: (contact) => {
-            setName(contact.name ?? '');
-            setEmail(contact.email ?? '');
-            setPhone(formatPhone(contact.phone) ?? '');
-            setCategoryId(contact.category_id ?? '');
+
+                setName(contact.name ?? '');
+                setEmail(contact.email ?? '');
+                setPhone(formatPhone(contact.phone) ?? '');
+                setCategoryId(contact.category_id ?? '');
 
             }
         }
@@ -110,11 +111,6 @@ const ContactForm = forwardRef( ({  onSubmit, buttonLabel }, ref) => {
         await onSubmit({name,email,phone,categoryId});
 
         setIsSubmitting(false);
-
-        setName('');
-        setEmail('');
-        setPhone('');
-        setCategoryId('');
 
 
     }

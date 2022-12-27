@@ -15,13 +15,24 @@ class HttpClient {
     }
 
     post(endpoint,body){
-        console.log(endpoint,body);
+
         return this.makeRequest(endpoint,{
             method:'POST',
             body,
             headers:body?.headers,
         });
     }
+
+    put(endpoint,body){
+
+        return this.makeRequest(endpoint,{
+            method:'PUT',
+            body,
+            headers:body?.headers,
+        });
+
+    }
+
 
     async makeRequest(endpoint,options){
 

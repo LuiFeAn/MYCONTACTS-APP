@@ -20,8 +20,33 @@ export default function EditContact () {
 
     const history = useHistory();
 
-    function handleSubmit(){
-        //
+    async function handleSubmit(formData){
+
+        try{
+
+            const contactData = await contactService.updateContact(id,{
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                category_id: formData.categoryId,
+            });
+
+            setContactName(contactData.name);
+
+            toast({
+                type:'sucess',
+                text:'Contato editado com sucesso'
+            });
+
+       }catch(err){
+
+            toast({
+                type:'danger',
+                text:'Ocorreu um erro ao editar o contato'
+            });
+
+       }
+
     }
 
     useEffect( () => {
