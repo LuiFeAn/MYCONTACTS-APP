@@ -3,7 +3,7 @@ import ContactForm from "../../components/ContactsForm";
 import Loader from "../../components/Loader";
 
 import { useParams, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import contactService from "../../services/contact-service";
 
@@ -15,7 +15,11 @@ export default function EditContact () {
 
     const [ loading, setLoading ] = useState(true);
 
+    const contactForm = useRef(null);
+
     const history = useHistory();
+
+    const [ contact, setContact ] = useState({});
 
     function handleSubmit(){
         //
@@ -28,6 +32,8 @@ export default function EditContact () {
             try{
 
                 const contactData = await contactService.getContactById(id);
+                setContact(contactData);
+                contactForm.current.setFieldsValues(contactData);
                 setLoading(false);
 
             }catch(err){
@@ -49,8 +55,13 @@ export default function EditContact () {
         <>
 
             <Loader isLoading={loading}/>
-            <PageHeader title='Editar Matheus Silva'/>
-            <ContactForm onSubmit={handleSubmit} buttonLabel="Salvar alterações"/>
+
+            <PageHeader title={`Editar ${contact.name}`}/>
+
+            <ContactForm
+                 ref={contactForm}
+                 onSubmit={handleSubmit}
+                 buttonLabel="Salvar alterações"/>
 
         </>
     )

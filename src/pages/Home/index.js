@@ -54,6 +54,7 @@ export default function Home () {
 
     return(
         <Container>
+
             <Loader isLoading={isLoading}/>
 
             {contacts.length  > 0 && (
