@@ -12,6 +12,8 @@ import Button from '../../components/Button';
 import emptyBox from '../../assets/images/icons/empty-box.svg';
 import magnifier from '../../assets/images/icons/magnifier-question.svg';
 
+import Modal from '../../components/Modal';
+
 export default function Home () {
 
     const [contacts,setContacts] = useState([]);
@@ -54,6 +56,14 @@ export default function Home () {
 
     return(
         <Container>
+
+            <Modal
+                danger
+                title={`Tem certeza que deseja deletar o contato "Matheus Silva"?`}
+            >
+                <p>SLA</p>
+
+            </Modal>
 
             <Loader isLoading={isLoading}/>
 
