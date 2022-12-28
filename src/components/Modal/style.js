@@ -26,7 +26,7 @@ export const Container = styled.div`
     box-shadow: 0px 4px 10px rgba(0,0,0,0.04);
     max-width: 450px;
 
-    h1{
+    > h1 {
         font-size:22px;
         color:${({theme,danger}) => (
             danger ? theme.colors.danger.main : theme.colors.gray[400]
@@ -35,6 +35,10 @@ export const Container = styled.div`
 
     p{
         margin-top:8px;
+    }
+
+    .modal-body{
+        margin-top:30px;
     }
 
 `;
@@ -47,11 +51,13 @@ export const Footer = styled.footer`
     justify-content: flex-end;
 
     .cancel-button{
+
         background:transparent;
         border:none;
         font-size:16px;
-        margin-right: 16px;
+        margin-right: 30px;
         color:${({theme}) => theme.colors.gray[200]};
+
     }
 
 `;
