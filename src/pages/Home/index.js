@@ -21,10 +21,12 @@ export default function Home () {
     const [orderBy,setOrderBy] = useState('asc');
     const [search,setSearch] = useState('');
     const [hasError,setHasError] = useState(false);
+    const [ isDeleteModalVisible, setIsDeleteModalVisible ] = useState(false);
+    const [ contactBeingDeleted, setContactBeingDeleted ] = useState(null);
 
 
     const filterContacts = useMemo(()=>
-        (contacts.filter( concact => concact.name.toLowerCase().includes(search.toLocaleLowerCase())))
+        (contacts.filter( contact => contact.name.toLowerCase().includes(search.toLocaleLowerCase())))
     ,[contacts,search]);
 
     const getContacts = useCallback( async () => {
@@ -54,15 +56,25 @@ export default function Home () {
         getContacts();
     }
 
+    function handleDeleteContact(contact){
+        setIsDeleteModalVisible(true);
+        setContactBeingDeleted(contact);
+    }
+
+    function handleCloseDeleteModal(){
+        setIsDeleteModalVisible(false);
+    }
+
     return(
         <Container>
 
             <Modal
                 danger
-                title={`Tem certeza que deseja deletar o contato "Matheus Silva"?`}
-            >
-                <p>SLA</p>
-
+                visible={isDeleteModalVisible}
+                title={`Tem certeza que deseja deletar o contato "${contactBeingDeleted?.name}"`}
+                onCancel={handleCloseDeleteModal}
+                >
+                <p>Esta ação não poderá ser desfeita</p>
             </Modal>
 
             <Loader isLoading={isLoading}/>
@@ -120,23 +132,23 @@ export default function Home () {
                     </button>
                     </ListHeader>
                 )}
-                {filterContacts.map( concact => (
-                    <Card key={concact.id}>
+                {filterContacts.map( contact => (
+                    <Card key={contact.id}>
                     <div className="info">
                         <div className="contact-name">
-                            <strong>{concact.name}</strong>
-                            {concact.category_name && (
-                                <small>{concact.category_name}</small>
+                            <strong>{contact.name}</strong>
+                            {contact.category_name && (
+                                <small>{contact.category_name}</small>
                             )}
                         </div>
-                        <span>{concact.email}</span>
-                        <span>{concact.phone}</span>
+                        <span>{contact.email}</span>
+                        <span>{contact.phone}</span>
                     </div>
                     <div className="actions">
-                        <Link to={`/edit/${concact.id}`}>
+                        <Link to={`/edit/${contact.id}`}>
                             <img src={edit} alt='edit'/>
                         </Link>
-                        <button type="button">
+                        <button type="button" onClick={ () => handleDeleteContact(contact)}>
                             <img src={trash} alt='delete'/>
                         </button>
                     </div>
