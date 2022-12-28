@@ -14,21 +14,30 @@ class HttpClient {
         });
     }
 
-    post(endpoint,body){
+    post(endpoint,options){
 
         return this.makeRequest(endpoint,{
             method:'POST',
-            body,
+            options: options?.body,
             headers:body?.headers,
         });
     }
 
-    put(endpoint,body){
+    put(endpoint,options){
 
         return this.makeRequest(endpoint,{
             method:'PUT',
-            body,
-            headers:body?.headers,
+            body: options?.body,
+            headers:options?.headers,
+        });
+
+    }
+
+    delete(endpoint,options){
+
+        return this.makeRequest(endpoint,{
+            method:'DELETE',
+            headers:options?.headers,
         });
 
     }
@@ -57,7 +66,7 @@ class HttpClient {
         let responseBody;
         const contentType = response.headers.get('Content-Type');
 
-        if(contentType.includes('application/json')) responseBody = await response.json();
+        if(contentType?.includes('application/json')) responseBody = await response.json();
 
         if(response.ok) return responseBody;
 

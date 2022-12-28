@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from "react-dom";
 import Button from '../Button';
 
-export default function Modal ({ danger, title, children, cancelLabel,confirmLabel, onCancel, onConfirm, visible }) {
+export default function Modal ({ danger, title, children, cancelLabel,confirmLabel, onCancel, onConfirm, visible, isLoading }) {
 
    if( visible ){
         return ReactDOM.createPortal(
@@ -19,8 +19,8 @@ export default function Modal ({ danger, title, children, cancelLabel,confirmLab
 
                     <Footer>
 
-                        <button onClick={onCancel} className="cancel-button" type="button">{cancelLabel}</button>
-                        <Button onClick={onConfirm} danger={danger} type="button">{confirmLabel}</Button>
+                        <button onClick={onCancel} disabled={isLoading} className="cancel-button" type="button">{cancelLabel}</button>
+                        <Button isLoading={isLoading} onClick={onConfirm} danger={danger} type="button">{confirmLabel}</Button>
 
                     </Footer>
 
@@ -44,10 +44,12 @@ Modal.PropTypes = {
     onCancel: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     visible: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
 }
 
 Modal.defaultProps = {
     danger: false,
     cancelLabel: 'Cancelar',
     confirmLabel: 'Deletar',
+    isLoading: false,
 }

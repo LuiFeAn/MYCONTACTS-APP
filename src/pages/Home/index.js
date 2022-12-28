@@ -13,6 +13,9 @@ import emptyBox from '../../assets/images/icons/empty-box.svg';
 import magnifier from '../../assets/images/icons/magnifier-question.svg';
 
 import Modal from '../../components/Modal';
+import contactService from "../../services/contact-service";
+
+import toast from '../../utils/toast';
 
 export default function Home () {
 
@@ -23,6 +26,7 @@ export default function Home () {
     const [hasError,setHasError] = useState(false);
     const [ isDeleteModalVisible, setIsDeleteModalVisible ] = useState(false);
     const [ contactBeingDeleted, setContactBeingDeleted ] = useState(null);
+    const [ isLoadingDelete, setIsLoadingDelete ] = useState(false);
 
 
     const filterContacts = useMemo(()=>
@@ -63,6 +67,38 @@ export default function Home () {
 
     function handleCloseDeleteModal(){
         setIsDeleteModalVisible(false);
+        setContactBeingDeleted(null);
+    }
+
+    async function handleConfirmDeleteContact(){
+
+        try{
+
+            setIsLoadingDelete(true);
+
+            await contactService.deleteContact(contactBeingDeleted.id);
+
+            toast({
+                type:'sucess',
+                text:'Contato deletado com suceso'
+            });
+
+            setContacts( prevState => prevState.filter( contact => contact.id != contactBeingDeleted.id));
+
+        }catch{
+
+            toast({
+                type:'sucess',
+                text:'Ocorreu um erro ao deletar o contato'
+            })
+
+        }finally{
+
+            setIsLoadingDelete(false);
+            handleCloseDeleteModal();
+
+        }
+
     }
 
     return(
@@ -70,9 +106,11 @@ export default function Home () {
 
             <Modal
                 danger
+                isLoading={isLoadingDelete}
                 visible={isDeleteModalVisible}
                 title={`Tem certeza que deseja deletar o contato "${contactBeingDeleted?.name}"`}
                 onCancel={handleCloseDeleteModal}
+                onConfirm={handleConfirmDeleteContact}
                 >
                 <p>Esta ação não poderá ser desfeita</p>
             </Modal>

@@ -50,6 +50,7 @@ export const Footer = styled.footer`
     align-items: center;
     justify-content: flex-end;
 
+
     .cancel-button{
 
         background:transparent;
@@ -57,6 +58,10 @@ export const Footer = styled.footer`
         font-size:16px;
         margin-right: 30px;
         color:${({theme}) => theme.colors.gray[200]};
+
+        &[disabled]{
+            cursor: not-allowed;
+        }
 
     }
 

@@ -15,11 +15,20 @@ class ContactService {
     }
 
     createContact(contact){
-        return this.httpClient.post('/contacts',contact);
+        return this.httpClient.post('/contacts',{
+            options:contact,
+        });
     }
 
     updateContact(id,contact){
-        return this.httpClient.put(`/contacts/${id}`,contact)
+        return this.httpClient.put(`/contacts/${id}`,{
+            options:contact
+        })
+    }
+
+    deleteContact(id){
+
+        return this.httpClient.delete(`/contacts/${id}`);
     }
 
 }
