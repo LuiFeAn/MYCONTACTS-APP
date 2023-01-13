@@ -10,15 +10,10 @@ export default function NewContact () {
 
     const formRef = useRef(null);
 
-    async function handleSubmit(formData){
+    async function handleSubmit(contact){
        try{
 
-            await ContactsService.createContact({
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                category_id: formData.categoryId,
-            });
+            await ContactsService.createContact(contact);
 
             formRef.current.resetFields();
 
@@ -28,6 +23,8 @@ export default function NewContact () {
             });
 
        }catch(err){
+
+            console.log(err);
 
             toast({
                 type:'danger',

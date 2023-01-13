@@ -12,7 +12,9 @@ class CategorysService {
     }
 
     async createCategory(categoryName){
-        return this.httpClient.post('/categories',{category_name:categoryName});
+        return this.httpClient.post('/categories',{
+            body: categoryName
+        });
     }
 
 }

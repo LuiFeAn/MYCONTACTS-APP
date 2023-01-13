@@ -23,16 +23,11 @@ export default function EditContact () {
 
     const history = useHistory();
 
-    async function handleSubmit(formData){
+    async function handleSubmit(contact){
 
         try{
 
-            const contactData = await contactService.updateContact(id,{
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                category_id: formData.categoryId,
-            });
+            const contactData = await contactService.updateContact(id,contact);
 
             setContactName(contactData.name);
 

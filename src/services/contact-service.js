@@ -1,4 +1,6 @@
-import httpClient from "./utils/http-client"
+import httpClient from "./utils/http-client";
+
+import contactMapper from './mappers/contact-mapper';
 
 class ContactService {
 
@@ -7,22 +9,32 @@ class ContactService {
     }
 
     getContacts(orderBy){
+
         return this.httpClient.get(`/contacts?orderBy=${orderBy}`);
+
     }
 
     getContactById(id){
+
         return this.httpClient.get(`/contacts/${id}`);
+
     }
 
     createContact(contact){
+
+        contact = contactMapper.toPersistance(contact);
+
         return this.httpClient.post('/contacts',{
-            options:contact,
+            body: contact
         });
     }
 
     updateContact(id,contact){
+
+        contact = contactMapper.toPersistance(contact);
+
         return this.httpClient.put(`/contacts/${id}`,{
-            options:contact
+            body: contact
         })
     }
 
