@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from "react";
 import contactService from "../../services/contact-service";
 
 import toast from '../../utils/toast';
+import useIsMounted from "../../hooks/useIsMounted";
 
 export default function EditContact () {
 
@@ -15,6 +16,8 @@ export default function EditContact () {
 
     const [ loading, setLoading ] = useState(true);
     const [ contactName, setContactName ] = useState('');
+
+    const isMounted = useIsMounted();
 
     const contactForm = useRef(null);
 
@@ -57,12 +60,17 @@ export default function EditContact () {
 
                 const contactData = await contactService.getContactById(id);
 
-                contactForm.current.setFieldsValues(contactData);
+                if( isMounted() ){
 
-                setContactName(contactData.name);
-                setLoading(false);
+                    contactForm.current.setFieldsValues(contactData);
+
+                    setContactName(contactData.name);
+                    setLoading(false);
+                }
 
             }catch(err){
+
+               if( isMounted() ){
 
                 history.push('/');
 
@@ -71,11 +79,13 @@ export default function EditContact () {
                     text:'Contato não encontrado'
                 });
 
+               }
+
             }
 
         })();
 
-    },[id,history]);
+    },[id,history,isMounted]);
 
     return (
         <>
